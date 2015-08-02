@@ -17,6 +17,6 @@ file(GLOB_RECURSE lrt_src2 "${PROJECT_SOURCE_DIR}/../src/*.cpp")
 list(APPEND lrt_src ${lrt_src1})
 list(APPEND lrt_src ${lrt_src2})
 
-add_executable(LibRetroServerTest $<TARGET_OBJECTS:platform> $<TARGET_OBJECTS:LibRetroServer> ${lrt_src})
+add_executable(LibRetroServerTest WIN32 $<TARGET_OBJECTS:platform> $<TARGET_OBJECTS:LibRetroServer> ${lrt_src})
 						
 set_property(TARGET LibRetroServerTest APPEND PROPERTY COMPILE_FLAGS "-WX -W4")

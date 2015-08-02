@@ -1,20 +1,10 @@
-#include <tchar.h>
-#include <Platform\PathUtils.h>
-#include <LibRetroServer\CoreProcess.h>
+#include <Windows.h>
+#include "TestApp.h"
 
-using namespace std::chrono_literals;
-
-int _tmain(int /*argc*/, _TCHAR* /*argv[]*/)
+int CALLBACK WinMain(HINSTANCE /*a_instance*/, HINSTANCE /*a_prevInstance*/, LPSTR /*a_cmdLine*/, int /*a_cmdShow*/)
 {
-	auto core1 = CR::LibRetroServer::CreateCoreProcess();
-	auto core2 = CR::LibRetroServer::CreateCoreProcess();
-	auto core3 = CR::LibRetroServer::CreateCoreProcess();
-	auto core4 = CR::LibRetroServer::CreateCoreProcess();
-
-	core1->WaitForClose(10s);
-	core2->WaitForClose(10s);
-	core3->WaitForClose(10s);
-	core4->WaitForClose(10s);
+	auto testApp = CreateTestApp();
+	testApp->Run();
 
 	return 0;
 }
