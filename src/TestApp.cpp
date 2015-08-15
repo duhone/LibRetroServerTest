@@ -14,18 +14,26 @@ public:
 	virtual ~TestApp();
 	void Run() override;
 private:
+	void OnDestroy();
+	volatile bool m_finished{false};
+
 	std::unique_ptr<CR::Platform::IWindow> m_window;
 	std::vector<std::unique_ptr<CR::LibRetroServer::ICoreProcess>> m_cores;
 };
 
 TestApp::TestApp()
 {
-	m_window = CR::Platform::CRCreateWindow("Lib Retro Server", 500, 500);
+	m_window = CR::Platform::CRCreateWindow("Lib Retro Server", 500, 500, [this]() { this->OnDestroy(); });
 	
 	m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
-	m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
-	m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
-	m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
+	//m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
+	//m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
+	//m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
+
+	m_cores[0]->Initialize("mame_libretro.dll", "galaga.zip");
+	//m_cores[1]->Initialize("mame_libretro.dll", "joust.zip");
+	//m_cores[2]->Initialize("mame_libretro.dll", "pacplus.zip");
+	//m_cores[3]->Initialize("mame_libretro.dll", "goldnaxe.zip");
 }
 
 TestApp::~TestApp()
@@ -35,7 +43,16 @@ TestApp::~TestApp()
 
 void TestApp::Run()
 {
-	std::this_thread::sleep_for(2s);
+	while(!m_finished)
+	{
+		std::this_thread::sleep_for(1s);
+	}
+}
+
+void TestApp::OnDestroy()
+{
+	m_finished = true;
+	CR::Core::ForEach(m_cores, [](auto& core) {	core->Shutdown(); });
 }
 
 std::unique_ptr<ITestApp> CreateTestApp()
