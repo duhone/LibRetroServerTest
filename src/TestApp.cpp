@@ -26,14 +26,14 @@ TestApp::TestApp()
 	m_window = CR::Platform::CRCreateWindow("Lib Retro Server", 500, 500, [this]() { this->OnDestroy(); });
 	
 	m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
-	//m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
-	//m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
-	//m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
+	m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
+	m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
+	m_cores.push_back(CR::LibRetroServer::CreateCoreProcess());
 
-	m_cores[0]->Initialize("mame_libretro.dll", "galaga.zip");
-	//m_cores[1]->Initialize("mame_libretro.dll", "joust.zip");
-	//m_cores[2]->Initialize("mame_libretro.dll", "pacplus.zip");
-	//m_cores[3]->Initialize("mame_libretro.dll", "goldnaxe.zip");
+	m_cores[0]->Initialize(R"(cores\mame_libretro.dll)", R"(roms\galaga.zip)");
+	m_cores[1]->Initialize(R"(cores\mame_libretro.dll)", R"(roms\joust.zip)");
+	m_cores[2]->Initialize(R"(cores\mame_libretro.dll)", R"(roms\pacplus.zip)");
+	m_cores[3]->Initialize(R"(cores\mame_libretro.dll)", R"(roms\goldnaxe.zip)");
 }
 
 TestApp::~TestApp()
